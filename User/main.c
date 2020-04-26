@@ -61,11 +61,11 @@ int main(void)
 			int16_t spd = adcx - 2048;
 			int16_t speed = spd * 2200 / 2048;
 			if (speed < -1500) {
-				//speed_ctrl = -1500;
+				speed_ctrl = -1500;
 			} else if (speed > 1500) {
-				//speed_ctrl = 1500;
+				speed_ctrl = 1500;
 			} else {
-				//speed_ctrl = speed;
+				speed_ctrl = speed;
 			}
 		} 
 		else if (mc_flag.ctrl_loop_mode == MC_POS_CLOSE_LOOP_MODE)
