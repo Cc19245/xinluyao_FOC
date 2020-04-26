@@ -25,7 +25,7 @@ void svpwm_calc(alphabeta_t v_alpha_beta)
 {
 	int32_t w_x, w_y, w_z, w_u_alpha, w_u_beta, w_time_ph_a, w_time_ph_b, w_time_ph_c;
 
-    uint8_t sector;
+	uint8_t sector;
 
 	w_u_alpha = v_alpha_beta.alpha * (int32_t)hT_Sqrt3;
 	w_u_beta = -(v_alpha_beta.beta * ( int32_t )(PWM_PERIOD_CYCLES) ) * 2;

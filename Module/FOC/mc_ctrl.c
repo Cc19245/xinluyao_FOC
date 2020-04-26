@@ -85,12 +85,15 @@ void mc_ctrl(void)
 float mc_speed_tmp = 0;
 static void mc_1ms_loop(void)
 {
+	static bool pos_init = false;
+	// 第一次运行mc_1ms_loop时，初始化下mc_pos_last的值，解决速度闭环模式开机会运动一下的问题
+	if (pos_init == false) {
+		mc_pos_last = mc_pos;
+		pos_init = true;
+	}
+
 	// 将速度单位转化为rpm
-	int32_t pos_dec = mc_pos - mc_pos_last;
-	if (pos_dec < 3000)
-		mc_speed_tmp = (mc_pos - mc_pos_last) * 60000 / UINT15_MAX; 
-	else 
-		mc_speed_tmp = 0;
+	mc_speed_tmp = (mc_pos - mc_pos_last) * 60000 / UINT15_MAX; 
 	
 	mc_speed = lpf_1rd_calc(&lpf_speed_fb, mc_speed_tmp);
 	mc_pos_last = mc_pos;
