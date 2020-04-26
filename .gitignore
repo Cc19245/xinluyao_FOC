@@ -1,0 +1,4 @@
+/Project/*
+*.tmp
+!/Project/DEMO.uvprojx
+!/Project/DEMO.uvoptx
