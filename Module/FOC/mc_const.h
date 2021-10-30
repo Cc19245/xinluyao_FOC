@@ -24,7 +24,7 @@
 #define PWM_PERIOD_CYCLES (uint16_t)(72*\
                                       (unsigned long long)1000000u/((uint16_t)(PWM_FREQ)))
 									  
-#define SQRT3FACTOR (uint16_t) 0xDDB4 /* = (16384 * 1.732051 * 2)*/
+#define SQRT3FACTOR (uint16_t) 0xDDB4 /* = (16384 * 1.732051 * 2)*/  // 根号3的q15格式表示？
 
 #define hT_Sqrt3 ((3600*SQRT3FACTOR)/16384u)
 

@@ -79,7 +79,7 @@ void mc_angle_process(int16_t val)
 void mc_set_elec_offset(void)
 {
 	int16_t value_lpf = mc_angle.value;
-	mc_angle.elec_offset = value_lpf * MC_POLE_PAIRS_NUM;
+	mc_angle.elec_offset = value_lpf * MC_POLE_PAIRS_NUM;  // 这里计算的就是电气角度的偏置
 }
 
 /**

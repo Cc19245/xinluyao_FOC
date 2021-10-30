@@ -95,18 +95,18 @@ static void mc_1ms_loop(void)
 	// 将速度单位转化为rpm
 	mc_speed_tmp = (mc_pos - mc_pos_last) * 60000 / UINT15_MAX; 
 	
-	mc_speed = lpf_1rd_calc(&lpf_speed_fb, mc_speed_tmp);
+	mc_speed = lpf_1rd_calc(&lpf_speed_fb, mc_speed_tmp);  // 速度做一阶低通滤波
 	mc_pos_last = mc_pos;
 	
 	if (mc_flag.ctrl_loop_mode == MC_SPD_CLOSE_LOOP_MODE || mc_flag.ctrl_loop_mode == MC_POS_CLOSE_LOOP_MODE) {
 		volatile int32_t w_err; 
-		w_err = speed_ctrl - mc_speed;
+		w_err = speed_ctrl - mc_speed;  // 速度环误差
 		
 		qd_t v_qd;
-		v_qd.q = mc_pi_controller(&speed_pid, w_err);
+		v_qd.q = mc_pi_controller(&speed_pid, w_err);  // 输入速度环PI计算，由于没有电流环，这里速度环的输出从id和iq直接变成ud和uq
 		v_qd.d = 0; 
 		
-		foc_v_qd_set(v_qd);
+		foc_v_qd_set(v_qd);  // 更新dq电压的目标值，这个目标值再foc循环（电流环，无电流环就是SVPWM生成）
 	}
 }
 

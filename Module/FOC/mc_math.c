@@ -2,6 +2,7 @@
 #include "mc_math.h"
 
 /* Private macro -------------------------------------------------------------*/
+// sin(0-90度)分为256份，最大值为32766/32768
 #define SIN_COS_TABLE {\
     0x0000,0x00C9,0x0192,0x025B,0x0324,0x03ED,0x04B6,0x057F,\
     0x0648,0x0711,0x07D9,0x08A2,0x096A,0x0A33,0x0AFB,0x0BC4,\
@@ -34,9 +35,9 @@
     0x7D89,0x7DB0,0x7DD5,0x7DFA,0x7E1D,0x7E3E,0x7E5F,0x7E7E,\
     0x7E9C,0x7EB9,0x7ED5,0x7EEF,0x7F09,0x7F21,0x7F37,0x7F4D,\
     0x7F61,0x7F74,0x7F86,0x7F97,0x7FA6,0x7FB4,0x7FC1,0x7FCD,\
-    0x7FD8,0x7FE1,0x7FE9,0x7FF0,0x7FF5,0x7FF9,0x7FFD,0x7FFE}
+    0x7FD8,0x7FE1,0x7FE9,0x7FF0,0x7FF5,0x7FF9,0x7FFD,0x7FFE}  //最大值为32766
 
-#define SIN_MASK        0x0300u
+#define SIN_MASK        0x0300u  // 十进制768, 数字后面有u声明这是一个无符号数
 #define U0_90           0x0200u
 #define U90_180         0x0300u
 #define U180_270        0x0000u
@@ -72,6 +73,7 @@ alphabeta_t mc_rev_park(qd_t volt_input, int16_t theta)
 	
 	volt_output.alpha = ( int16_t )( ( ( q_v_alpha_tmp1 ) + ( q_v_alpha_tmp2 ) ) >> 15 );
 	
+	// 问题：这里的反park变换的alpha和beta是不是反了？
 
 	q_v_beta_tmp1 = volt_input.q * ( int32_t )local_vector_components.h_sin;
 	q_v_beta_tmp2 = volt_input.d * ( int32_t )local_vector_components.h_cos;
@@ -95,7 +97,7 @@ trig_components mc_trig_functions( int16_t h_angle )
   /* 10 bit index computation  */
   shindex = ( ( int32_t )32768 + ( int32_t )h_angle );
   uhindex = ( uint16_t )shindex;
-  uhindex /= ( uint16_t )64;
+  uhindex /= ( uint16_t )64; //在正弦表中把90度分成了256份
 
 
   switch ( ( uint16_t )( uhindex ) & SIN_MASK )

@@ -37,6 +37,7 @@ void bsp_timer2_init(void)
     TIM_Cmd(TIM2, ENABLE);
 }
 
+// 定时1ms的中断
 void TIM2_IRQHandler(void)
 {
 	TIM_ClearITPendingBit(TIM2, TIM_IT_Update);

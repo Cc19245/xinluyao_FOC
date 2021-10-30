@@ -44,7 +44,7 @@ void foc_update(void)
     qd_t v_qd;
 	alphabeta_t v_alpha_beta;
 	
-	bsp_enc_read_angle();
+	bsp_enc_read_angle();  // 读取电角度，并减去偏移，也就是最后有效的电角度
 
 	if (mc_flag.ctrl_loop_mode == MC_OPEN_MODE) {
         /*
@@ -57,7 +57,7 @@ void foc_update(void)
         volt.q = 3000;
         volt.d = 0;
 
-        v_qd = circle_limitation(volt);
+        v_qd = circle_limitation(volt);   // 空间电压矢量限幅，防止超过六边形内接圆
         v_alpha_beta = mc_rev_park(v_qd, encoder_elec_test);
 
 	} else if (mc_flag.ctrl_loop_mode == MC_ELEC_CALIB_MODE) { // 电角度校准

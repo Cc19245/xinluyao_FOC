@@ -26,15 +26,22 @@ void bsp_mos_init(void)
 	
 	//MP6536使能引脚输出低电平，芯片为关闭状态。
 	GPIO_ResetBits(GPIOG, GPIO_Pin_9);
-	
+
 	/* 
 		MP6536错误信息引脚, 默认为高。芯片出错变为低，并自动关闭芯片输出
 		当用户控制这个引脚输出为低时，芯片U、V、W输出引脚为高阻态。
 	*/
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC,ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO,ENABLE);
+	
+	PWR_BackupAccessCmd( ENABLE );/* 允许修改RTC和后备寄存器*/
+	BKP_TamperPinCmd(DISABLE);  /* 关闭入侵检测功能,PC13可以用作普通IO*/
+	PWR_BackupAccessCmd(DISABLE);/* 禁止修改RTC和后备寄存器*/
+
+	
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
 }
 

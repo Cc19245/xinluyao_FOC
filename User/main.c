@@ -39,7 +39,7 @@ int main(void)
 	mc_angle_init();	
 	bsp_pwm_init();
 	
-	bsp_timer2_init();
+	bsp_timer2_init();   // 定时1ms，运行速度环
 	
 	bsp_adc_init();
 	
@@ -47,8 +47,8 @@ int main(void)
 	bsp_mos_on();
 	
 	//mc_flag.ctrl_loop_mode = MC_NO_CTRL_MODE;
-	mc_flag.ctrl_loop_mode = MC_SPD_CLOSE_LOOP_MODE;
-	//mc_flag.ctrl_loop_mode = MC_POS_CLOSE_LOOP_MODE;
+	//mc_flag.ctrl_loop_mode = MC_SPD_CLOSE_LOOP_MODE;
+	mc_flag.ctrl_loop_mode = MC_OPEN_MODE;
 	
 	while(1)
 	{
